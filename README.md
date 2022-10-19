@@ -1,5 +1,24 @@
 # AstroBot
 
+## Запуск
+1. Установка зависимостей: 
+```bash
+$ npm ci
+```
+2. Установка и генерация prisma-клиента:
+```bash
+$ npx prisma generate
+```
+3. Применение миграций и наполнение базы данных:
+```bash
+$ npx prisma db push
+$ node ./prisma/seed.js
+```
+4. Запуск бота:
+```bash
+$ npm start
+```
+
 ## Структура `.env`-файла
 ```
 TOKEN=telegram_token

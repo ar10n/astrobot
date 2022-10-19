@@ -12,8 +12,8 @@ model Category {
     name        String    @unique
     description String?
     createdAt   DateTime  @default(now())
-    updatedAt   DateTime  @default(now())
-    Service     Service[]
+    updatedAt   DateTime  @updatedAt
+    service     Service[]
 }
 
 model Service {
@@ -23,5 +23,5 @@ model Service {
     category    Category @relation(fields: [categoryId], references: [id])
     categoryId  Int
     createdAt   DateTime @default(now())
-    updatedAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 }
