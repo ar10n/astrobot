@@ -11,7 +11,7 @@ $ npx prisma generate
 ```
 3. Применение миграций и наполнение базы данных:
 ```bash
-$ npx prisma db push
+$ npx prisma migrate deploy
 $ node ./prisma/seed.js
 ```
 4. Запуск бота:
