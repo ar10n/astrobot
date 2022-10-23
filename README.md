@@ -14,7 +14,11 @@ $ npx prisma generate
 $ npx prisma migrate deploy
 $ node ./prisma/seed.js
 ```
-4. Запуск бота:
+4. Компиляция:
+```bash
+$ tsc
+```
+5. Запуск бота:
 ```bash
 $ npm start
 ```

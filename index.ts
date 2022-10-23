@@ -13,7 +13,7 @@ class App {
 const app = new App();
 app.init();
 
-const token = process.env.TOKEN;
+const token: string | undefined = process.env.TOKEN;
 if (!token) {
     throw new Error('Не задан токен.');
 }
