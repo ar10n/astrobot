@@ -9,14 +9,14 @@ $ npm ci
 ```bash
 $ npx prisma generate
 ```
-3. Применение миграций и наполнение базы данных:
+3. Применение миграций:
 ```bash
 $ npx prisma migrate deploy
-$ node ./prisma/seed.js
 ```
-4. Компиляция:
+4. Компиляция и наполнение базы данных:
 ```bash
 $ tsc
+$ node ./dist/prisma/seed.js
 ```
 5. Запуск бота:
 ```bash
