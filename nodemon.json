@@ -1,0 +1,11 @@
+{
+    "watch": [
+        "scenes",
+        "interfaces"
+    ],
+    "ext": "ts,json",
+    "ignore": [
+        "src/**/*.spec.ts"
+    ],
+    "exec": "ts-node --files ./index.ts"
+}

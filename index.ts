@@ -3,7 +3,7 @@ import { Markup, Scenes, Telegraf } from 'telegraf';
 import LocalSession from 'telegraf-session-local';
 import CustomContext from './interfaces/custom.context';
 import { prisma } from './prisma/client';
-import { categoriesScene, emailScene, nameScene } from './scenes/scenes';
+import { categoriesScene, emailScene, nameScene, servicesScene } from './scenes/scenes';
 
 class App {
     async init() {
@@ -21,7 +21,7 @@ if (!token) {
 
 const bot = new Telegraf<CustomContext>(token);
 
-const stage = new Scenes.Stage<CustomContext>([nameScene, emailScene, categoriesScene]);
+const stage = new Scenes.Stage<CustomContext>([nameScene, emailScene, categoriesScene, servicesScene]);
 
 bot.use(new LocalSession).middleware();
 bot.use(stage.middleware());
