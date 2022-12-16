@@ -2,49 +2,43 @@ import { Category } from '@prisma/client';
 import { Scenes, Markup } from 'telegraf';
 import CustomContext from '../interfaces/custom.context';
 import { prisma } from '../prisma/client';
-import { splittedArray } from '../helpers/splittedArray';
 
 const categoriesScene = new Scenes.BaseScene<CustomContext>('categories');
 
 let categories: Category[] = [];
-let categoriesNames: string[] = [];
-let menuCategories: Array<Array<string>> = [];
+let menuCategories: Array<any> = [];
+
 (async function fetchCategories() {
     categories = await prisma.category.findMany();
-    categoriesNames = categories.map(category => category.name);
-    menuCategories = splittedArray(categoriesNames, 2);
+    menuCategories = categories.map(category => [Markup.button.callback(category.name, `CAT_${category.id.toString()}`)]);
 })();
 
 categoriesScene.enter((ctx) => {
-    ctx.reply('Список разделов.', Markup.keyboard(menuCategories).oneTime().resize());
+    ctx
+        .reply('Список доступных разделов.', Markup.inlineKeyboard(menuCategories))
+        .then(data => ctx.session.msgId = data.message_id);
 });
 
-categoriesScene.on("text", ctx => {
+categoriesScene.on('text', ctx => {
+    ctx.deleteMessage();
     const category = categories.find(item => item.name == ctx.update.message.text);
-    if (typeof category?.description == "string") {
+    if (typeof category?.description == 'string') {
         ctx.reply(category.description, Markup.inlineKeyboard([
-            [Markup.button.callback('Перейти в категорию', `CAT_${category.id.toString()}`)],
+            [Markup.button.callback('Перейти в раздел', `CAT_${category.id.toString()}`)],
             [Markup.button.callback('Вернуться в меню', 'MENU')]
-        ]))
+        ]));
     }
-})
+    ctx.answerCbQuery();
+});
 
 categoriesScene.action('MENU', (ctx) => {
-    ctx.reply('Список разделов.', Markup.keyboard(menuCategories).oneTime().resize());
-    ctx.answerCbQuery();
+    ctx.reply('Список доступных разделов.', Markup.inlineKeyboard(menuCategories));
 });
 
 categoriesScene.action(/CAT_+/, async (ctx) => {
     ctx.session.currentService = Number(ctx.match.input.substring(4));
-    ctx.scene.enter('services')
+    ctx.scene.enter('services');
     ctx.answerCbQuery();
-});
-
-// categoriesScene.leave((ctx, next) => {
-//     next();
-// });
-categoriesScene.command("leave", (ctx) => {
-    ctx.scene.leave();
 });
 
 export { categoriesScene };

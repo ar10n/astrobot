@@ -20,25 +20,38 @@ if (!token) {
 }
 
 const bot = new Telegraf<CustomContext>(token);
-
-const stage = new Scenes.Stage<CustomContext>([nameScene, emailScene, categoriesScene, servicesScene]);
+const stage = new Scenes.Stage<CustomContext>([categoriesScene, emailScene, nameScene, servicesScene]);
 
 bot.use(new LocalSession).middleware();
 bot.use(stage.middleware());
 
-bot.hears('Подробнее', ctx => ctx.reply('Здесь будут подробности'));
-bot.hears('Начать', ctx => ctx.scene.enter('name'));
+bot.action('DESC', (ctx) => {
+    ctx.deleteMessage();
+    ctx.reply('Подробности о боте.', Markup.inlineKeyboard(
+        [Markup.button.callback('Зарегистрироваться', 'REG')]
+    ));
+    ctx.answerCbQuery();
+});
+
+bot.action('REG', (ctx) => {
+    ctx.deleteMessage();
+    ctx.scene.enter('name');
+    ctx.answerCbQuery();
+});
 
 bot.command('start', (ctx) => {
     if (!ctx.session.name && !ctx.session.email) {
+        ctx.deleteMessage();
         ctx.replyWithMarkdownV2(
             'Добро пожаловать в *АстроБот*\\!',
-            Markup.keyboard([
-                ['Подробнее', 'Начать']
-            ]).oneTime().resize()
+            Markup.inlineKeyboard([
+                [Markup.button.callback('Подробнее', 'DESC')],
+                [Markup.button.callback('Зарегистрироваться', 'REG')]
+            ]),
         );
+    } else {
+        ctx.scene.enter('categories');
     }
-    ctx.scene.enter('categories');
 });
 
 bot.launch();
