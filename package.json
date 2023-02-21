@@ -21,7 +21,9 @@
   },
   "dependencies": {
     "@prisma/client": "^4.8.0",
+    "@types/nodemailer": "^6.4.7",
     "dotenv": "^16.0.3",
+    "nodemailer": "^6.9.1",
     "telegraf": "^4.10.0",
     "telegraf-session-local": "^2.1.0"
   }
