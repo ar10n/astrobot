@@ -20,7 +20,6 @@ categoryDetailsScene.enter(async (ctx) => {
     if (categoryId) {
         const category = await prisma.category.findUnique({ where: { id: categoryId } });
         if (category?.name === 'Отзывы') {
-            ;
             await ctx.replyWithPhoto({ source: dir + '/' + files[0] },
                 Markup.keyboard(['Следующий отзыв', 'Назад']).resize().oneTime());
         } else {
@@ -30,7 +29,10 @@ categoryDetailsScene.enter(async (ctx) => {
             await ctx.reply(`${category?.name}`,
                 Markup.keyboard(['Назад']).resize().oneTime());
             for (const service of services) {
-                await ctx.reply(`${service.name}`);
+                await ctx.reply(`
+                ${service.name}
+                ${service.description}
+                `);
             }
         }
     }
