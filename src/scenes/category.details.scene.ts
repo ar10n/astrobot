@@ -2,8 +2,14 @@ import { Markup, Scenes } from 'telegraf';
 import CustomContext from '../interfaces/custom.context';
 import { prisma } from '../prisma/client';
 import fs from 'fs';
+import 'dotenv/config';
 
-const dir = './src/img';
+const dir: string | undefined = process.env.IMG_DIR;
+if (!dir) {
+    throw new Error('Не задана директория.');
+}
+const files = fs.readdirSync(dir);
+
 
 const categoryDetailsScene = new Scenes.BaseScene<CustomContext>('categoryDetails');
 
@@ -14,9 +20,8 @@ categoryDetailsScene.enter(async (ctx) => {
     if (categoryId) {
         const category = await prisma.category.findUnique({ where: { id: categoryId } });
         if (category?.name === 'Отзывы') {
-            const files = fs.readdirSync(dir);
-            const photoIndex = Math.floor(Math.random() * files.length + 1);
-            await ctx.replyWithPhoto({ source: dir + '/' + files[photoIndex] },
+            ;
+            await ctx.replyWithPhoto({ source: dir + '/' + files[0] },
                 Markup.keyboard(['Следующий отзыв', 'Назад']).resize().oneTime());
         } else {
             const services = await prisma.service.findMany({
@@ -42,7 +47,6 @@ categoryDetailsScene.command('cart', async (ctx) => {
 });
 
 categoryDetailsScene.hears('Следующий отзыв', async (ctx) => {
-    const files = fs.readdirSync(dir);
     const photoIndex = Math.floor(Math.random() * files.length + 1);
     await ctx.replyWithPhoto({ source: dir + '/' + files[photoIndex] },
         Markup.keyboard(['Следующий отзыв', 'Назад']).resize().oneTime());
