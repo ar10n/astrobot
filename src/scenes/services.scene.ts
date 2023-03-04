@@ -5,7 +5,7 @@ import { prisma } from '../prisma/client';
 
 const servicesScene = new Scenes.BaseScene<CustomContext>('services');
 
-servicesScene.enter(async (ctx): Promise<void> => {
+servicesScene.enter(async (ctx) => {
     const userId = ctx.from?.id;
     const currentSession = await prisma.session.findUnique({ where: { userId } });
     const categoryId = Number(currentSession?.currentCategoryId);
@@ -15,33 +15,38 @@ servicesScene.enter(async (ctx): Promise<void> => {
             where: { categoryId: category.id },
             orderBy: { id: 'asc' }
         });
-        const buttons = services.map(service => [Markup.button.callback(service.name, `SERV_${service.id.toString()}`)]);
-        buttons.push([Markup.button.callback('Вернуться в меню', 'MENU')]);
-        await ctx.replyWithMarkdownV2(
+        const buttons = services.map(service => service.name);
+        await ctx.reply(
             `Услуги раздела ${category.name}`,
-            Markup.inlineKeyboard(buttons)
+            Markup.keyboard([...buttons, 'Назад'], { columns: 2 }).resize().oneTime()
         );
     }
 });
 
-servicesScene.action(/SERV_./, async (ctx): Promise<void> => {
-    const serviceId = Number(await ctx.callbackQuery.data?.slice(5));
-    const userId = Number(await ctx.callbackQuery.from.id);
-    await prisma.session.update({
-        where: {
-            userId
-        },
-        data: {
-            currentServiceId: serviceId
-        }
-    });
-    await ctx.scene.enter('serviceDetails');
-    await ctx.answerCbQuery();
+servicesScene.command('start', async (ctx) => {
+    await ctx.scene.enter('categories');
 });
 
-servicesScene.action('MENU', async (ctx): Promise<void> => {
-    await ctx.scene.enter('categories');
-    await ctx.answerCbQuery();
+servicesScene.command('cart', async (ctx) => {
+    await ctx.scene.enter('cart');
+});
+
+servicesScene.on('text', async (ctx) => {
+    const userId = ctx.from?.id;
+    const serviceName = ctx.message.text;
+    const service = await prisma.service.findFirst({ where: { name: serviceName } });
+    if (service) {
+        await prisma.session.update({
+            where: { userId },
+            data: { currentServiceId: service?.id }
+        });
+        await ctx.scene.enter('payableServiceDetails');
+    } else if (serviceName === 'Назад') {
+        await ctx.scene.enter('categories');
+    } else {
+        ctx.reply('Пожалуйста, выберите раздел из меню.');
+        await ctx.scene.enter('services');
+    }
 });
 
 export { servicesScene };

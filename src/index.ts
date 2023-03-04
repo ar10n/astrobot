@@ -1,9 +1,9 @@
 import 'dotenv/config';
-import { Markup, Scenes, Telegraf } from 'telegraf';
 import CustomContext from './interfaces/custom.context';
 import LocalSession from 'telegraf-session-local';
-import { prisma } from './prisma/client';
 import { allScenes } from './scenes/scenes';
+import { Scenes, Telegraf } from 'telegraf';
+import { prisma } from './prisma/client';
 
 const token: string | undefined = process.env.TOKEN;
 if (!token) {
@@ -16,33 +16,19 @@ const stage = new Scenes.Stage<CustomContext>(allScenes);
 bot.use(new LocalSession({ storage: LocalSession.storageMemory })).middleware();
 bot.use(stage.middleware());
 
-bot.command('start', async (ctx): Promise<void> => {
-    const user = await prisma.user.findUnique({ where: { id: ctx.from.id } });
+bot.command('start', async (ctx) => {
+    const userId = Number(ctx.from.id);
+    const user = await prisma.user.findUnique({ where: { id: userId } });
     if (!user) {
-        await ctx.replyWithMarkdownV2(
-            'Добро пожаловать в *АстроБот*\\!',
-            Markup.inlineKeyboard([
-                Markup.button.callback('Подробнее', 'descriptionBtn'),
-                Markup.button.callback('Зарегистрироваться', 'registerBtn')
-            ]));
-    } else {
-        await ctx.scene.enter('categories');
+        const newUser = await prisma.user.create({ data: { id: userId } });
+        await prisma.cart.create({ data: { user: { connect: { id: newUser.id } } } });
+        await prisma.session.create({ data: { user: { connect: { id: newUser.id } } } });
     }
+    await ctx.scene.enter('categories');
 });
 
-bot.action('descriptionBtn', async (ctx): Promise<void> => {
-    await ctx.replyWithMarkdownV2(
-        'Подробности о боте\\.',
-        Markup.inlineKeyboard([
-            Markup.button.callback('Зарегистрироваться', 'registerBtn')
-        ])
-    );
-    await ctx.answerCbQuery();
-});
-
-bot.action('registerBtn', async (ctx): Promise<void> => {
-    await ctx.scene.enter('name');
-    await ctx.answerCbQuery();
+bot.command('cart', async (ctx) => {
+    await ctx.scene.enter('cart');
 });
 
 bot.launch();
