@@ -29,7 +29,7 @@ categoryDetailsScene.enter(async (ctx) => {
             await ctx.reply(`${category?.name}`,
                 Markup.keyboard(['Назад']).resize().oneTime());
             for (const service of services) {
-                await ctx.reply(`
+                await ctx.replyWithHTML(`
                 ${service.name}
                 ${service.description}
                 `);
