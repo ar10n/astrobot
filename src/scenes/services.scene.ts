@@ -20,6 +20,9 @@ servicesScene.enter(async (ctx) => {
             `Услуги раздела ${category.name}`,
             Markup.keyboard([...buttons, 'Назад'], { columns: 2 }).resize().oneTime()
         );
+        if (category.description) {
+            await ctx.replyWithHTML(category.description);
+        }
     }
 });
 
