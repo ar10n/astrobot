@@ -24,7 +24,8 @@ categoryDetailsScene.enter(async (ctx) => {
                 Markup.keyboard(['Следующий отзыв', 'Назад']).resize().oneTime());
         } else {
             const services = await prisma.service.findMany({
-                where: { categoryId }
+                where: { categoryId },
+                orderBy: { id: 'asc' }
             });
             await ctx.reply(`${category?.name}`,
                 Markup.keyboard(['Назад']).resize().oneTime());

@@ -58,6 +58,7 @@ buyScene.enter(async (ctx) => {
                     TG Username: ${userName}
                 `
             });
+
             await prisma.serviceInCart.deleteMany({ where: { cartId: cart.id } });
             await ctx.replyWithMarkdownV2('Ваш заказ отправлен\\. Астролог свяжется с Вами в самое ближайшее время\\.');
             await ctx.scene.enter('categories');
