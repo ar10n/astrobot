@@ -56,6 +56,7 @@ categoryDetailsScene.hears('Следующий отзыв', async (ctx) => {
 
 categoryDetailsScene.hears('Назад', async (ctx) => {
     await ctx.scene.enter('categories');
+    await ctx.scene.leave();
 });
 
 export { categoryDetailsScene };
