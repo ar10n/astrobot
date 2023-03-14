@@ -29,10 +29,10 @@ categoryDetailsScene.enter(async (ctx) => {
             await ctx.reply(`${category?.name}`,
                 Markup.keyboard(['Назад']).resize().oneTime());
             for (const service of services) {
-                await ctx.replyWithHTML(`
-                ${service.name}
-                ${service.description}
-                `);
+                await ctx.replyWithHTML(service.name);
+                if (service.description) {
+                    await ctx.replyWithHTML(service.description);
+                }
             }
         }
     }
