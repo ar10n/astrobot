@@ -14,14 +14,19 @@ onlineQuestScene.on('text', async (ctx) => {
     const userText = ctx.message.text;
     if (userText === 'Да') {
         // Предлагаем услуги
+        await ctx.replyWithHTML('Тебе подойдут: ');
+        await ctx.replyWithHTML('1️⃣ Космограмма из раздела Астроконсультации');
+        await ctx.replyWithHTML('2️⃣ Гайды');
         await ctx.replyWithHTML(
-            'Тебе подойдет Космограмма из раздела Астроконсультации, а также Гайды и Медитации',
+            '3️⃣ Медитации',
             Markup.keyboard(['Вернуться в главное меню']).resize().oneTime()
         );
     } else if (userText === 'Нет') {
         // Предлагаем услуги
+        await ctx.replyWithHTML('Тебе подойдут: ');
+        await ctx.replyWithHTML('1️⃣ Космограмма из раздела Астроконсультации');
         await ctx.replyWithHTML(
-            'Тебе подойдет Космограмма из раздела Астроконсультации, а также можешь какое-нибудь Мероприятие (подробности в Афише).',
+            '2️ Мероприятия',
             Markup.keyboard(['Вернуться в главное меню']).resize().oneTime()
         );
     } else if (userText === 'Вернуться в главное меню') {

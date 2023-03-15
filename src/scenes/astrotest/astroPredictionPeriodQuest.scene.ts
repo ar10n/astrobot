@@ -22,10 +22,10 @@ astroPredictionPeriodQuestScene.on('text', async (ctx) => {
     } else if (userText === 'Год') {
         // Предлагаем астропрогноз на год и соляры
         await ctx.replyWithHTML('Тебе подойдут следующие консультации:');
+        await ctx.replyWithHTML('1️⃣ АСТРОПРОГНОЗ на год');
+        await ctx.replyWithHTML('2️⃣ Соляр СТАНДАРТ');
+        await ctx.replyWithHTML('3️⃣ Соляр ПРО');
         await ctx.replyWithHTML(
-            'АСТРОПРОГНОЗ на год' +
-            'Соляр СТАНДАРТ' +
-            'Соляр ПРО' +
             'Указанные выше консультации находятся в разделе Астроконсультации.',
             Markup.keyboard(['Вернуться в главное меню']).resize().oneTime()
         );

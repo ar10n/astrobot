@@ -18,8 +18,11 @@ starCardQuestScene.on('text', async (ctx) => {
         await ctx.scene.leave();
     } else if (userText === 'Нет') {
         // Предлагаем услуги
+        await ctx.replyWithHTML('Тебе подойдут: ');
+        await ctx.replyWithHTML('1️⃣ Разбор натальной карты');
+        await ctx.replyWithHTML('1️⃣ Разбор ядра личности');
         await ctx.replyWithHTML(
-            'Тебе подойдут Разбор натальной карты и Разбор ядра личности из раздела Астроконсультации.',
+            'Вышеперечисленные консультации находятся в разделе Астроконсультации.',
             Markup.keyboard(['Вернуться в главное меню']).resize().oneTime()
         );
     } else if (userText === 'Вернуться в главное меню') {
