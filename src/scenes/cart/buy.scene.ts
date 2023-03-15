@@ -1,4 +1,4 @@
-import { Scenes, Markup } from 'telegraf';
+import { Scenes } from 'telegraf';
 import CustomContext from '../../interfaces/custom.context';
 import nodemailer from 'nodemailer';
 import 'dotenv/config';

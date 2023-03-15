@@ -10,7 +10,7 @@ categoriesScene.enter(async (ctx) => {
     const buttons = categories.map(category => category.name);
     await ctx.reply(
         'Список доступных разделов.',
-        Markup.keyboard([...buttons], { columns: 2 }).resize().oneTime(),
+        Markup.keyboard([...buttons], { columns: 2 }).resize().oneTime()
     );
 });
 
