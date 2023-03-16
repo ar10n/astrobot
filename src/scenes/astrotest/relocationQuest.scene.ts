@@ -5,7 +5,7 @@ const relocationQuestScene = new Scenes.BaseScene<CustomContext>('relocationQues
 
 relocationQuestScene.enter(async (ctx) => {
     await ctx.replyWithHTML(
-        'Ты хотела бы рассчитать благоприятное место для переезда и жизни?',
+        'Хочешь, я рассчитаю благоприятные места для переезда, жизни или отдыха?',
         Markup.keyboard(['Да', 'Нет', 'Вернуться в главное меню'], { columns: 2 }).resize().oneTime()
     );
 });
@@ -15,13 +15,13 @@ relocationQuestScene.on('text', async (ctx) => {
     if (userText === 'Да') {
         // Предлагаем услуги
         await ctx.replyWithHTML(
-            'Тебе подойдет Релокация из раздела Астроконсультации.',
+            'Тебе подойдет <b>Релокация</b> из раздела Астроконсультации.',
             Markup.keyboard(['Вернуться в главное меню']).resize().oneTime()
         );
     } else if (userText === 'Нет') {
         // Предлагаем обратиться напрямую к астрологу
         await ctx.replyWithHTML(
-            'Обратитесь напрямую к астрологу за дополнительной консультацией. Контакты вы можете найти в разделе Сотрудничество.',
+            'Обратитесь напрямую к астрологу за дополнительной консультацией. Контакты можно найти в разделе <b>Сотрудничество</b>.',
             Markup.keyboard(['Вернуться в главное меню']).resize().oneTime()
         );
     } else if (userText === 'Вернуться в главное меню') {
