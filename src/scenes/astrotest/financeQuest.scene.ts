@@ -20,7 +20,7 @@ financeQuestScene.on('text', async (ctx) => {
         );
     } else if (userText === 'Нет') {
         // Переходим в сцену с вопросом о личной жизни
-        await ctx.scene.enter('personalLifeScene');
+        await ctx.scene.enter('personalLife');
         await ctx.scene.leave();
     } else if (userText === 'Вернуться в главное меню') {
         await ctx.scene.enter('categories');
