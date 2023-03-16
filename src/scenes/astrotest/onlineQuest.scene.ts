@@ -26,7 +26,7 @@ onlineQuestScene.on('text', async (ctx) => {
         await ctx.replyWithHTML('Тебе подойдут: ');
         await ctx.replyWithHTML('1️⃣ Космограмма из раздела Астроконсультации');
         await ctx.replyWithHTML(
-            '2️ Мероприятия',
+            '2️⃣ Мероприятия',
             Markup.keyboard(['Вернуться в главное меню']).resize().oneTime()
         );
     } else if (userText === 'Вернуться в главное меню') {

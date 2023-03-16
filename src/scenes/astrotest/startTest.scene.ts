@@ -4,7 +4,7 @@ import CustomContext from '../../interfaces/custom.context';
 const startTestScene = new Scenes.BaseScene<CustomContext>('startTest');
 
 startTestScene.enter(async (ctx) => {
-    await ctx.replyWithHTML('<b>Привет!</b> С помощью этого теста мы сможем определить, какие именно консультации тебе необходимы. Для этого нужно последовательно отвечать на вопросы.');
+    await ctx.replyWithHTML('<b>Привет!</b> С помощью данного теста я помогу определить, какие именно консультации тебе необходимы. Для этого последовательно отвечай на вопросы.');
     await ctx.replyWithHTML('Итак, начнем...');
     await ctx.replyWithHTML(
         'Знаешь ли ты точное время своего рождения?',

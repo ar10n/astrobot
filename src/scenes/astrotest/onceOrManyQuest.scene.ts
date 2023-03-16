@@ -19,7 +19,7 @@ onceOrManyQuestScene.on('text', async (ctx) => {
     } else if (userText === 'Нет') {
         // Предлагаем приобрести абонемент
         await ctx.replyWithHTML(
-            'Тебе подойдет Абонемент из раздела Астроконсультации.',
+            'Тебе подойдет услуга <b>Абонемент</b> из раздела Астроконсультации.',
             Markup.keyboard(['Вернуться в главное меню']).resize().oneTime()
         );
     } else if (userText === 'Вернуться в главное меню') {

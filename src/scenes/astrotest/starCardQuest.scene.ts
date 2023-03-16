@@ -5,7 +5,7 @@ const starCardQuestScene = new Scenes.BaseScene<CustomContext>('starCardQuest');
 
 starCardQuestScene.enter(async (ctx) => {
     await ctx.replyWithHTML(
-        'Ты получала расшифровку своей звёздной карты?',
+        'Есть ли у тебя расшифровка твоей звёздной карты?',
         Markup.keyboard(['Да', 'Нет', 'Вернуться в главное меню'], { columns: 2 }).resize().oneTime()
     );
 });
@@ -14,13 +14,13 @@ starCardQuestScene.on('text', async (ctx) => {
     const userText = ctx.message.text;
     if (userText === 'Да') {
         // Переходим в сцену с вопросом о самореализации
-        await ctx.scene.enter('selfRealizationQuestScene');
+        await ctx.scene.enter('selfRealizationQuest');
         await ctx.scene.leave();
     } else if (userText === 'Нет') {
         // Предлагаем услуги
         await ctx.replyWithHTML('Тебе подойдут: ');
-        await ctx.replyWithHTML('1️⃣ Разбор натальной карты');
-        await ctx.replyWithHTML('1️⃣ Разбор ядра личности');
+        await ctx.replyWithHTML('1️⃣ Разбор Натальной карты');
+        await ctx.replyWithHTML('2️⃣ Разбор Ядра личности');
         await ctx.replyWithHTML(
             'Вышеперечисленные консультации находятся в разделе Астроконсультации.',
             Markup.keyboard(['Вернуться в главное меню']).resize().oneTime()
